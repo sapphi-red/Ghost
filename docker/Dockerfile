@@ -1,0 +1,24 @@
+FROM node:14-alpine
+
+# add "bash" for "[["
+RUN apk add --no-cache bash git python
+
+RUN yarn global add grunt grunt-cli
+
+ENV NODE_ENV development
+
+COPY ./package.json /srv/ghost/package.json
+COPY ./yarn.lock /srv/ghost/yarn.lock
+
+WORKDIR /srv/ghost
+RUN yarn install --silent
+
+COPY . /srv/ghost
+
+RUN grunt build
+RUN grunt prod
+
+ENV NODE_ENV production
+
+EXPOSE 2368
+CMD ["node", "./index.js"]
