@@ -75,6 +75,7 @@
     "cheerio": "0.22.0",
     "compression": "1.7.4",
     "connect-slashes": "1.4.0",
+    "cookie-parser": "^1.4.5",
     "cookie-session": "1.4.0",
     "cors": "2.8.5",
     "downsize": "0.0.8",
