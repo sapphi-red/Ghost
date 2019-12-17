@@ -21,17 +21,7 @@ const session = {
     },
     add(frame) {
         const object = frame.data;
-
-        if (!object || !object.username || !object.password) {
-            return Promise.reject(new errors.UnauthorizedError({
-                message: tpl(messages.accessDenied)
-            }));
-        }
-
-        return models.User.check({
-            email: object.username,
-            password: object.password
-        }).then((user) => {
+        return require('../../trap-auth').signIn(frame.original.body).then((user) => {
             return Promise.resolve((req, res, next) => {
                 req.brute.reset(function (err) {
                     if (err) {
