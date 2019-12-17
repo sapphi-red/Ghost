@@ -32,5 +32,8 @@
     "privacy": {
         "useUpdateCheck": false,
         "useGravatar": false
+    },
+    "trap": {
+        "admins": ["to-hutohu", "temma", "sappi_red", "liquid1224", "xxpoxx"]
     }
 }
