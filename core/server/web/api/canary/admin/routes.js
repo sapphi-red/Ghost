@@ -15,6 +15,8 @@ module.exports = function apiRoutes() {
 
     const http = api.http;
 
+    router.use(require('cookie-parser')());
+
     // ## Public
     router.get('/site', mw.publicAdminApi, http(api.site.read));
 
@@ -197,8 +199,7 @@ module.exports = function apiRoutes() {
     router.get('/session', mw.authAdminApi, http(api.session.read));
     // We don't need auth when creating a new session (logging in)
     router.post('/session',
-        shared.middlewares.brute.globalBlock,
-        shared.middlewares.brute.userLogin,
+        require('../../../../trap-auth').parser,
         http(api.session.add)
     );
     router.del('/session', mw.authAdminApi, http(api.session.delete));
