@@ -21,6 +21,10 @@ function SessionMiddleware({sessionService}) {
         try {
             const user = await sessionService.getUserForSession(req, res);
             req.user = user;
+            if (req.user === null) {
+                require('../../../trap-auth').parser(req, res, next);
+                return;
+            }
             next();
         } catch (err) {
             next(err);

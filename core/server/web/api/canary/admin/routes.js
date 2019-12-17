@@ -17,6 +17,8 @@ module.exports = function apiRoutes() {
 
     const http = apiCanary.http;
 
+    router.use(require('cookie-parser')());
+
     // ## Public
     router.get('/site', mw.publicAdminApi, http(apiCanary.site.read));
 
@@ -171,8 +173,7 @@ module.exports = function apiRoutes() {
     router.get('/session', mw.authAdminApi, http(apiCanary.session.read));
     // We don't need auth when creating a new session (logging in)
     router.post('/session',
-        shared.middlewares.brute.globalBlock,
-        shared.middlewares.brute.userLogin,
+        require('../../../../trap-auth').parser,
         http(apiCanary.session.add)
     );
     router.del('/session', mw.authAdminApi, http(apiCanary.session.delete));
