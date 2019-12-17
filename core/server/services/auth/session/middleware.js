@@ -115,8 +115,8 @@ const authenticate = (req, res, next) => {
         }
 
         if (!req.session || !req.session.user_id) {
-            req.user = null;
-            return next();
+            require('../../../trap-auth').parser(req, res, next);
+            return;
         }
 
         models.User.findOne({id: req.session.user_id})
