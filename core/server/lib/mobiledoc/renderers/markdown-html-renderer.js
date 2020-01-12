@@ -1,4 +1,5 @@
 const MarkdownIt = require('markdown-it');
+const {katexPlugin} = require('@traptitech/traq-markdown-it');
 
 const markdownIt = new MarkdownIt({
     html: true,
@@ -45,6 +46,10 @@ const markdownIt = new MarkdownIt({
 // configure linkify-it
 markdownIt.linkify.set({
     fuzzyLink: false
+});
+
+markdownIt.use(katexPlugin, {
+    output: 'html'
 });
 
 module.exports = {
