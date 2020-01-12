@@ -1,5 +1,5 @@
 const MarkdownIt = require('markdown-it');
-const {katexPlugin} = require('@traptitech/traq-markdown-it');
+const {katexPlugin, useContainer} = require('@traptitech/traq-markdown-it');
 
 const markdownIt = new MarkdownIt({
     html: true,
@@ -51,6 +51,7 @@ markdownIt.linkify.set({
 markdownIt.use(katexPlugin, {
     output: 'html'
 });
+useContainer(markdownIt);
 
 module.exports = {
     render: function (markdown) {
