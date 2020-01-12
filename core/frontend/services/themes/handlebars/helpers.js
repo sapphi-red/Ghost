@@ -6,6 +6,9 @@ const registerAsyncThemeHelper = register.registerAsyncThemeHelper;
 let registerAllCoreHelpers;
 
 registerAllCoreHelpers = function registerAllCoreHelpers() {
+    // Register custom helpers
+    registerThemeHelper('paginate', require('ghost-pagination'));
+
     // Register theme helpers
     registerThemeHelper('asset', coreHelpers.asset);
     registerThemeHelper('author', coreHelpers.author);
