@@ -1,14 +1,17 @@
 diff --git a/node_modules/@tryghost/kg-markdown-html-renderer/lib/markdown-html-renderer.js b/node_modules/@tryghost/kg-markdown-html-renderer/lib/markdown-html-renderer.js
-index 5f0bc1b..3448d04 100644
+index 5f0bc1b..f7b049f 100644
 --- a/node_modules/@tryghost/kg-markdown-html-renderer/lib/markdown-html-renderer.js
 +++ b/node_modules/@tryghost/kg-markdown-html-renderer/lib/markdown-html-renderer.js
-@@ -1,4 +1,5 @@
+@@ -1,6 +1,8 @@
  const MarkdownIt = require('markdown-it');
-+const {katexPlugin, useContainer} = require('@traptitech/traq-markdown-it');
++const {createHighlightFunc, katexPlugin, useContainer} = require('@traptitech/traq-markdown-it');
  
  const markdownIt = new MarkdownIt({
++    highlight: createHighlightFunc('blog-code'),
      html: true,
-@@ -47,6 +48,11 @@ markdownIt.linkify.set({
+     breaks: true,
+     linkify: true
+@@ -47,6 +49,11 @@ markdownIt.linkify.set({
      fuzzyLink: false
  });
  
