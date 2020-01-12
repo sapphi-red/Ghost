@@ -97,6 +97,7 @@
     "glob": "7.1.6",
     "got": "9.6.0",
     "gscan": "3.5.7",
+    "highlight.js": "^10.2.0",
     "html-to-text": "5.1.1",
     "image-size": "0.8.3",
     "intl": "1.2.5",
