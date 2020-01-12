@@ -41,6 +41,9 @@ coreHelpers.twitter_url = require('./twitter_url');
 coreHelpers.url = require('./url');
 
 registerAllCoreHelpers = function registerAllCoreHelpers() {
+    // Register custom helpers
+    registerThemeHelper('paginate', require('ghost-pagination'));
+
     // Register theme helpers
     registerThemeHelper('asset', coreHelpers.asset);
     registerThemeHelper('author', coreHelpers.author);
