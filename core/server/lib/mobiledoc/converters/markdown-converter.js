@@ -1,4 +1,4 @@
-const {katexPlugin} = require('traq-markdown-it')
+const {katexPlugin, useContainer} = require('traq-markdown-it')
 
 var MarkdownIt = require('markdown-it'),
     converter = new MarkdownIt({
@@ -51,6 +51,7 @@ converter.linkify.set({
 converter.use(katexPlugin, {
     output: 'html'
 });
+useContainer(converter);
 
 module.exports = {
     render: function (markdown) {
