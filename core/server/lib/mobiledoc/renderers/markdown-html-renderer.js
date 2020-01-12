@@ -1,7 +1,8 @@
 const MarkdownIt = require('markdown-it');
-const {katexPlugin, useContainer} = require('@traptitech/traq-markdown-it');
+const {createHighlightFunc, katexPlugin, useContainer} = require('@traptitech/traq-markdown-it');
 
 const markdownIt = new MarkdownIt({
+    highlight: createHighlightFunc('blog-code'),
     html: true,
     breaks: true,
     linkify: true
