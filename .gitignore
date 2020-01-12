@@ -131,3 +131,4 @@ test/coverage
 # Caddyfile - for local development with ssl + caddy
 Caddyfile
 !/content/settings/routes.yaml
+!/content/themes/ghost-theme-2020
