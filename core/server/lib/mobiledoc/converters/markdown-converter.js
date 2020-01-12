@@ -1,3 +1,5 @@
+const {katexPlugin} = require('traq-markdown-it')
+
 var MarkdownIt = require('markdown-it'),
     converter = new MarkdownIt({
         html: true,
@@ -44,6 +46,10 @@ var MarkdownIt = require('markdown-it'),
 // configure linkify-it
 converter.linkify.set({
     fuzzyLink: false
+});
+
+converter.use(katexPlugin, {
+    output: 'html'
 });
 
 module.exports = {
