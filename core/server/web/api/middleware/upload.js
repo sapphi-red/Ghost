@@ -69,6 +69,11 @@ const validation = function (options) {
         req.file.name = req.file.originalname;
         req.file.type = req.file.mimetype;
 
+        // Skip validation
+        if (type === 'any') {
+            return next();
+        }
+
         // Check if a file was provided
         if (!checkFileExists(req.file)) {
             return next(new errors.ValidationError({
