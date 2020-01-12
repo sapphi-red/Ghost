@@ -1,4 +1,6 @@
 const createCard = require('./lib/create-card');
+const _ = require('lodash');
+const hljs = require('highlight.js');
 
 module.exports = createCard({
     name: 'code',
@@ -14,11 +16,30 @@ module.exports = createCard({
         let pre = dom.createElement('pre');
         let code = dom.createElement('code');
 
+        pre.setAttribute('class', 'blog-code');
+        {
+            const lang = payload.language;
+            const text = payload.code;
+            const noHighlightRe = /^(no-?highlight|plain|text)$/i;
+
+            if (hljs.getLanguage(lang)) {
+                const result = hljs.highlight(lang, text);
+                payload.language = result.language;
+                payload.code = result.value;
+            } else if (!noHighlightRe.test(lang)) {
+                payload.code = _.escape(text);
+            } else {
+                const result = hljs.highlightAuto(text);
+                payload.language = result.language;
+                payload.code = result.value;
+            }
+        }
+
         if (payload.language) {
             code.setAttribute('class', `language-${payload.language}`);
         }
 
-        code.appendChild(dom.createTextNode(payload.code));
+        code.appendChild(dom.createRawHTMLSection(payload.code));
         pre.appendChild(code);
 
         if (payload.caption) {
