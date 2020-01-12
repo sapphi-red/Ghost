@@ -7,6 +7,11 @@ const image = require('../../../../lib/image');
 module.exports = function normalize(req, res, next) {
     const imageOptimizationOptions = config.get('imageOptimization');
 
+    // not images
+    if (!req.file.type.includes('image')) {
+        return next();
+    }
+
     // CASE: image manipulator is uncapable of transforming file (e.g. .gif)
     if (!image.manipulator.canTransformFileExtension(req.file.ext) || !imageOptimizationOptions.resize) {
         return next();
