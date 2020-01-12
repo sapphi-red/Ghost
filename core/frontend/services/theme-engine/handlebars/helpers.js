@@ -4,6 +4,9 @@ const registerThemeHelper = register.registerThemeHelper;
 const registerAsyncThemeHelper = register.registerAsyncThemeHelper;
 
 const registerAllCoreHelpers = function registerAllCoreHelpers() {
+    // Register custom helpers
+    registerThemeHelper('paginate', require('ghost-pagination'));
+
     // Register theme helpers
     registerThemeHelper('asset', coreHelpers.asset);
     registerThemeHelper('author', coreHelpers.author);
