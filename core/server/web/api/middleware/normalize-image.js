@@ -6,6 +6,11 @@ const imageTransform = require('@tryghost/image-transform');
 module.exports = function normalize(req, res, next) {
     const imageOptimizationOptions = config.get('imageOptimization');
 
+    // not images
+    if (!req.file.type.includes('image')) {
+        return next();
+    }
+
     // CASE: image transform is not capable of transforming file (e.g. .gif)
     if (!imageTransform.canTransformFileExtension(req.file.ext) || !imageOptimizationOptions.resize) {
         return next();
