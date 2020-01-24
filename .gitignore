@@ -124,3 +124,5 @@ CHANGELOG.md
 /core/built
 /core/server/web/admin/views/*.html
 /core/server/public/ghost.min.css
+
+!/content/settings/routes.yaml
