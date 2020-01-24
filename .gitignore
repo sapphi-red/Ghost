@@ -125,3 +125,5 @@ test/coverage
 /core/server/web/admin/views/*.html
 !/core/server/web/admin/views/preview.html
 /core/server/public/ghost.min.css
+
+!/content/settings/routes.yaml
