@@ -25,7 +25,5 @@ RUN cp -r ./node_modules/ghost-storage-adapter-openstack ./content/adapters/stor
 
 ENV NODE_ENV production
 
-VOLUME /srv/ghost/content
-
 EXPOSE 2368
 CMD ["node", "./index.js"]
