@@ -94,6 +94,7 @@
     "fs-extra": "9.0.1",
     "ghost-ignition": "4.2.2",
     "ghost-pagination": "^0.1.3",
+    "ghost-storage-adapter-openstack": "traPtitech/ghost-storage-adapter-openstack#c52904a",
     "ghost-storage-base": "^0.0.5",
     "glob": "7.1.6",
     "got": "9.6.0",
