@@ -6,7 +6,7 @@ on:
     - traP-*
 
 env:
-  IMAGE_NAME: Ghost
+  IMAGE_NAME: ghost
 
 jobs:
   image:
