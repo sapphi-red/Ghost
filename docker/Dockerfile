@@ -15,6 +15,9 @@ RUN yarn install --silent
 RUN mkdir -p ./content/adapters/storage
 RUN cp -r ./node_modules/ghost-storage-adapter-openstack ./content/adapters/storage/openstack
 
+RUN grunt build
+RUN grunt prod
+
 ENV NODE_ENV production
 
 EXPOSE 2368
