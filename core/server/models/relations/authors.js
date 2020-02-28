@@ -445,11 +445,11 @@ module.exports.extendModel = function extendModel(Post, Posts, ghostBookshelf) {
                     // @TODO: for now we simply re-use the new concept of `excludedAttrs`
                     // We only check the primary author of `authors`, any other change will be ignored.
                     // By this we can deprecate `author_id` more easily.
-                    if (isContributor || isAuthor) {
-                        return {
-                            excludedAttrs: ['authors'].concat(excludedAttrs)
-                        };
-                    }
+                    // if (isContributor || isAuthor) {
+                    //     return {
+                    //         excludedAttrs: ['authors'].concat(excludedAttrs)
+                    //     };
+                    // }
                     return {excludedAttrs};
                 });
             }
