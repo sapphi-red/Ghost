@@ -1,5 +1,7 @@
 // this is a function so that when it's aliased across multiple cards we do not
 // end up modifying the object by reference
+const getRandom = () => Math.random().toString(36).slice(2, 9);
+
 module.exports = function markdownCardDefinition() {
     return {
         name: 'markdown',
@@ -13,7 +15,7 @@ module.exports = function markdownCardDefinition() {
             let payload = opts.payload;
             let version = opts.options && opts.options.version || 2;
             // convert markdown to HTML ready for insertion into dom
-            let html = renderers.markdownHtmlRenderer.render(payload.markdown || '');
+            let html = renderers.markdownHtmlRenderer.render(payload.markdown || '', getRandom());
 
             if (!html) {
                 return '';

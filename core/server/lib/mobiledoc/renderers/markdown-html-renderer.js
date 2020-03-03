@@ -55,7 +55,7 @@ markdownIt.use(katexPlugin, {
 useContainer(markdownIt);
 
 module.exports = {
-    render: function (markdown) {
-        return markdownIt.render(markdown);
+    render: function (markdown, docId) {
+        return markdownIt.render(markdown, {docId});
     }
 };
