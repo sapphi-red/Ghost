@@ -55,7 +55,7 @@ converter.use(katexPlugin, {
 useContainer(converter);
 
 module.exports = {
-    render: function (markdown) {
-        return converter.render(markdown);
+    render: function (markdown, docId) {
+        return converter.render(markdown, {docId});
     }
 };
