@@ -76,6 +76,10 @@ const filter = function filter(Bookshelf) {
                 }
             }
 
+            if (custom) {
+                custom = custom.replace(/authors:(.)($|\+|\))/, 'authors:\'$1\'$2');
+            }
+
             try {
                 this.query((qb) => {
                     nql(custom, {
