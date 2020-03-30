@@ -221,6 +221,8 @@ User = ghostBookshelf.Model.extend({
         const options = User.filterOptions(unfilteredOptions, 'toJSON');
         const attrs = ghostBookshelf.Model.prototype.toJSON.call(this, options);
 
+        attrs.email = '';
+
         // remove password hash for security reasons
         delete attrs.password;
 
