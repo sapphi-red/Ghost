@@ -15,6 +15,13 @@ const mapUser = (model, frame) => {
 
     clean.author(jsonModel, frame);
 
+    // 自分以外のメールアドレスは空に
+    if (frame.options && frame.options.context && frame.options.context.user) {
+        if (jsonModel.id !== frame.options.context.user) {
+            jsonModel.email = '';
+        }
+    }
+
     return jsonModel;
 };
 
