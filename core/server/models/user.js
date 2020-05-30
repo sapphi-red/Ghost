@@ -214,7 +214,7 @@ User = ghostBookshelf.Model.extend({
 
     onFetched: function onFetched() {
         // Use traP avatar
-        this.set('profile_image', `//q.trap.jp/api/1.0/public/icon/${this.get('name')}`);
+        this.set('profile_image', `//q.trap.jp/api/v3/public/icon/${this.get('name')}`);
     },
 
     toJSON: function toJSON(unfilteredOptions) {
