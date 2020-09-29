@@ -63,10 +63,11 @@ module.exports = {
         if (membersStripeCustomersIndexes.find(index => index.Key_name === 'members_stripe_customers_customer_id_unique')) {
             logging.warn('Skipping "members_stripe_customers_customer_id_unique" index creation - already exists');
         } else {
-            logging.info('Adding "members_stripe_customers_customer_id_unique" index');
-            await knex.schema.alterTable('members_stripe_customers', (table) => {
-                table.unique('customer_id');
-            });
+            logging.info('Skipping "members_stripe_customers_customer_id_unique" index creation - patched');
+            // logging.info('Adding "members_stripe_customers_customer_id_unique" index');
+            // await knex.schema.alterTable('members_stripe_customers', (table) => {
+            //     table.unique('customer_id');
+            // });
         }
 
         const [membersStripeCustomersSubscriptionsIndexes] = await knex.raw('SHOW INDEXES from members_stripe_customers_subscriptions');
@@ -74,19 +75,21 @@ module.exports = {
         if (membersStripeCustomersSubscriptionsIndexes.find(index => index.Key_name === 'members_stripe_customers_subscriptions_subscription_id_unique')) {
             logging.warn('Skipping "members_stripe_customers_subscriptions_subscription_id_unique" index creation - already exists');
         } else {
-            logging.info('Adding "members_stripe_customers_subscriptions_subscription_id_unique" index');
-            await knex.schema.alterTable('members_stripe_customers_subscriptions', (table) => {
-                table.unique('subscription_id');
-            });
+            logging.info('Skipping "members_stripe_customers_subscriptions_subscription_id_unique" index creation - patched');
+            // logging.info('Adding "members_stripe_customers_subscriptions_subscription_id_unique" index');
+            // await knex.schema.alterTable('members_stripe_customers_subscriptions', (table) => {
+            //     table.unique('subscription_id');
+            // });
         }
 
         if (membersStripeCustomersSubscriptionsIndexes.find(index => index.Key_name === 'members_stripe_customers_subscriptions_customer_id_foreign')) {
             logging.warn('Skipping "members_stripe_customers_subscriptions_customer_id_foreign" foreign key constraint creation - already exists');
         } else {
-            logging.info('Adding "members_stripe_customers_subscriptions_customer_id_foreign" foreign key constraint');
-            await knex.schema.alterTable('members_stripe_customers_subscriptions', (table) => {
-                table.foreign('customer_id').references('members_stripe_customers.customer_id').onDelete('CASCADE');
-            });
+            logging.info('Skipping "members_stripe_customers_subscriptions_customer_id_foreign" foreign key constraint creation - patched');
+            // logging.info('Adding "members_stripe_customers_subscriptions_customer_id_foreign" foreign key constraint');
+            // await knex.schema.alterTable('members_stripe_customers_subscriptions', (table) => {
+            //     table.foreign('customer_id').references('members_stripe_customers.customer_id').onDelete('CASCADE');
+            // });
         }
     },
 
