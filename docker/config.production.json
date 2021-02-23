@@ -35,5 +35,8 @@
     },
     "trap": {
         "admins": ["temma", "sappi_red", "hijiki51", "xxarupakaxx"]
+    },
+    "imageOptimization": {
+        "resize": false
     }
 }
