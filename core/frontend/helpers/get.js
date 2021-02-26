@@ -151,11 +151,7 @@ module.exports = function get(resource, options) {
     apiOptions = parseOptions(ghostGlobals, this, apiOptions);
 
     // @TODO: https://github.com/TryGhost/Ghost/issues/10548
-    return controller[action](apiOptions).then(function success(result) {
-        // prepare data properties for use with handlebars
-        if (result[resource] && result[resource].length) {
-            result[resource].forEach(prepareContextResource);
-        }
+    return returnCacheAndStartRefetch(controller, action, apiOptions, controllerName).then(function success(result) {
 
         // used for logging details of slow requests
         returnedRowsCount = result[resource] && result[resource].length;
@@ -194,5 +190,46 @@ module.exports = function get(resource, options) {
         }
     });
 };
+
+
+const cachedResults = {};
+
+// 前回の取得結果がある場合はそれを一旦返して取得結果を更新する。
+// 取得結果が存在しない場合は取得してそれを格納した上で返す。
+function returnCacheAndStartRefetch(controller, action, apiOptions, controllerName) {
+    if (!cachedResults[controllerName]) {
+        cachedResults[controllerName] = {};
+    }
+    if (!cachedResults[controllerName][action]) {
+        cachedResults[controllerName][action] = {};
+    }
+
+    const stringApiOptions = JSON.stringify(apiOptions);
+    const cache = cachedResults[controllerName][stringApiOptions];
+
+    if (cache) {
+        if (!cache.isFetching) {
+            cache.isFetching = true;
+            const promise = controller[action](apiOptions);
+            promise.then(function () {
+                cache.promise = promise;
+                cache.isFetching = false;
+            });
+        }
+        return cache.promise;
+    }
+
+    const promise = controller[action](apiOptions);
+    cachedResults[controllerName][stringApiOptions] = {
+        isFetching: true,
+        promise: promise
+    };
+
+    promise.then(function () {
+        cachedResults[controllerName][stringApiOptions].isFetching = false;
+    });
+
+    return promise;
+}
 
 module.exports.async = true;
