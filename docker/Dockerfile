@@ -1,7 +1,7 @@
-FROM node:14-alpine
+FROM node:14-buster-slim
 
 # add "bash" for "[["
-RUN apk add --no-cache bash git python
+RUN apt-get update && apt-get install -y bash git python
 
 RUN yarn global add grunt grunt-cli
 
