@@ -12,7 +12,7 @@ COPY ./yarn.lock /srv/ghost/yarn.lock
 COPY ./patches /srv/ghost/patches
 
 WORKDIR /srv/ghost
-RUN yarn install --silent
+RUN yarn install --silent && yarn cache clean
 
 RUN mkdir -p ./content/adapters/storage
 RUN cp -r ./node_modules/ghost-storage-adapter-openstack ./content/adapters/storage/openstack
