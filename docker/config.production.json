@@ -34,7 +34,8 @@
         "useGravatar": false
     },
     "trap": {
-        "admins": ["to-hutohu", "temma", "sappi_red", "liquid1224", "xxpoxx"]
+        "admins": ["temma", "sappi_red"],
+        "invalidateToken": []
     },
     "imageOptimization": {
         "resize": false
