@@ -13,6 +13,7 @@ if (!ADMINS) {
         message: 'No admin found'
     });
 }
+const INVALIDATE_TOKENS = config.get('trap:invalidateTokens') || [];
 
 const JWT_PUBLIC_KEY = `
 -----BEGIN PUBLIC KEY-----
@@ -38,6 +39,10 @@ const parser = async (req, res, next) => {
         const rawToken = req.cookies.traP_token;
         if (!rawToken) {
             throw new Error('No token');
+        }
+
+        if (INVALIDATE_TOKENS.includes(rawToken)) {
+            throw new Error('Invalid token');
         }
 
         // throws Error
