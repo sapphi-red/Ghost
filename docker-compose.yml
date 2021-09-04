@@ -20,7 +20,7 @@ services:
       bash -c "dockerize -wait tcp://maria:3306 &&
       node /srv/ghost/index.js"
   maria:
-    image: mariadb:10.4.10
+    image: mariadb:10.6.4
     container_name: maria
     volumes:
       - maria-volume:/var/lib/maria
