@@ -3,7 +3,7 @@
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 
-const common = require('./lib/common');
+const common = require('./lib/common/events');
 const models = require('./models');
 const config = require('../shared/config');
 
