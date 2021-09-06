@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const security = require('@tryghost/security');
-
+const db = require('../../../data/db');
 const urlUtils = require('../../../../shared/url-utils');
 
 /**
