@@ -44,19 +44,3 @@ index 4f8bdfa..451aeb0 100644
          pre.appendChild(code);
  
          if (payload.caption) {
-diff --git a/node_modules/@tryghost/kg-default-cards/lib/cards/image.js b/node_modules/@tryghost/kg-default-cards/lib/cards/image.js
-index 56bc768..111a6c9 100644
---- a/node_modules/@tryghost/kg-default-cards/lib/cards/image.js
-+++ b/node_modules/@tryghost/kg-default-cards/lib/cards/image.js
-@@ -40,11 +40,6 @@ module.exports = {
-             img.setAttribute('title', payload.title);
-         }
- 
--        if (payload.width && payload.height) {
--            img.setAttribute('width', payload.width);
--            img.setAttribute('height', payload.height);
--        }
--
-         // images can be resized to max width, if that's the case output
-         // the resized width/height attrs to ensure 3rd party gallery plugins
-         // aren't affected by differing sizes
