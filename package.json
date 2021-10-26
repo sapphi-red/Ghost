@@ -20,6 +20,7 @@
   "contributors": "https://github.com/TryGhost/Ghost/graphs/contributors",
   "license": "MIT",
   "scripts": {
+    "postinstall": "patch-package",
     "start": "node index",
     "dev": "grunt dev",
     "dev:debug": "DEBUG=ghost:* grunt dev",
@@ -55,6 +56,7 @@
     "cli": "^1.17.0"
   },
   "dependencies": {
+    "@nexes/nql": "0.6.0",
     "@sentry/node": "6.19.7",
     "@tryghost/adapter-manager": "0.2.29",
     "@tryghost/admin-api-schema": "2.14.0",
@@ -175,8 +177,10 @@
     "node-jose": "2.1.1",
     "oembed-parser": "1.4.9",
     "passport": "0.5.2",
+    "patch-package": "^6.2.2",
     "passport-google-oauth": "2.0.0",
     "path-match": "1.2.4",
+    "postinstall-postinstall": "^2.1.0",
     "probe-image-size": "7.2.3",
     "rss": "1.2.2",
     "sanitize-html": "2.7.0",

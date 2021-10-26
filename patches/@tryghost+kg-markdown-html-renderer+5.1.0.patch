@@ -1,0 +1,31 @@
+diff --git a/node_modules/@tryghost/kg-markdown-html-renderer/lib/markdown-html-renderer.js b/node_modules/@tryghost/kg-markdown-html-renderer/lib/markdown-html-renderer.js
+index 42b8bfe..0f896a8 100644
+--- a/node_modules/@tryghost/kg-markdown-html-renderer/lib/markdown-html-renderer.js
++++ b/node_modules/@tryghost/kg-markdown-html-renderer/lib/markdown-html-renderer.js
+@@ -1,4 +1,5 @@
+ const MarkdownIt = require('markdown-it');
++const {katexPlugin} = require('@traptitech/traq-markdown-it');
+ const semver = require('semver');
+ 
+ const renderers = {};
+@@ -76,6 +77,10 @@ const selectRenderer = function (options) {
+         markdownIt.linkify.set({
+             fuzzyLink: false
+         });
++        markdownIt.use(katexPlugin, {
++            output: 'html'
++        });
++            
+ 
+         renderers['<4.x'] = markdownIt;
+         return markdownIt;
+@@ -94,6 +99,9 @@ const selectRenderer = function (options) {
+         markdownIt.linkify.set({
+             fuzzyLink: false
+         });
++        markdownIt.use(katexPlugin, {
++            output: 'html'
++        });
+ 
+         renderers.latest = markdownIt;
+         return markdownIt;
