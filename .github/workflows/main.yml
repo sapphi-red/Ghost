@@ -17,7 +17,7 @@ jobs:
       - name: Set IMAGE_TAG env (traP branch)
         run: echo "IMAGE_TAG=latest" >> $GITHUB_ENV
         if: github.ref == 'refs/heads/traP'
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: checkout submodules
         run: git submodule update --init
       - name: Login to GitHub Container Registry

@@ -7,9 +7,9 @@ services:
       dockerfile: ./docker/DockerfileDockerize
     volumes:
       - ./docker/config.production.json:/srv/ghost/config.production.json:ro
-      - ./content/data:/srv/ghost/content/data
-      - ./content/logs:/srv/ghost/content/logs
-      - ./content/settings:/srv/ghost/content/settings
+      - ./ghost/core/content/data:/srv/ghost/content/data
+      - ./ghost/core/content/logs:/srv/ghost/content/logs
+      - ./ghost/core/content/settings:/srv/ghost/content/settings
     ports:
       - '8180:2368'
     tty: true
@@ -20,7 +20,7 @@ services:
       bash -c "dockerize -wait tcp://maria:3306 &&
       node /srv/ghost/index.js"
   maria:
-    image: mariadb:10.6.4
+    image: mariadb:10.11.4
     container_name: maria
     volumes:
       - maria-volume:/var/lib/maria
