@@ -1,32 +1,36 @@
-FROM node:18-buster-slim AS builder
-
-# add "bash" for "[["
-RUN apt-get update && apt-get install -y bash git python
-
+FROM node:18-bookworm-slim AS builder
 ENV GHOST_VERSION 5.54.0
 ENV NODE_ENV development
 
-COPY . /srv/ghost
+RUN apt-get update && apt-get install -y git tar git-filter-repo
+COPY . /tmp/ghost
+WORKDIR /tmp/ghost
 
-WORKDIR /srv/ghost
+# 必要なパッケージをルートに持ってくる
+RUN (cd ghost/bookshelf-filter && git filter-repo -f --subdirectory-filter packages/bookshelf-filter) && \
+  (cd ghost/kg-default-cards && git filter-repo -f --subdirectory-filter packages/kg-default-cards) && \
+  (cd ghost/kg-markdown-html-renderer && git filter-repo -f --subdirectory-filter packages/kg-markdown-html-renderer)
+
 RUN yarn install --silent && yarn cache clean
-RUN mkdir -p ./ghost/core/content/adapters/storage
-RUN cp -r ./node_modules/ghost-storage-adapter-openstack ./ghost/core/content/adapters/storage/openstack
-
 RUN yarn archive
-COPY ./ghost/core/ghost-${GHOST_VERSION}.tgz ./ghost.tgz
+RUN cp ./ghost/core/ghost-${GHOST_VERSION}.tgz ./ghost.tgz && \
+  tar -xzf ./ghost.tgz && \
+  rm ./ghost.tgz && \
+  mkdir -p /srv/ghost && \
+  mv ./package/* /srv/ghost
 
-FROM ghost:alpine
+# COPY ./ghost/core/content/themes/Ghost-Theme-2020 /srv/ghost/content/themes/ghost-theme-2020
+# openstack adaptorを移動
+RUN mkdir -p /srv/ghost/content/adapters/storage && \ 
+  cp -r ./node_modules/ghost-storage-adapter-openstack /srv/ghost/content/adapters/storage/openstack
+
+FROM node:18-alpine
+RUN apk add --no-cache git
 
 ENV NODE_ENV production
+COPY --from=builder /srv/ghost /srv/ghost
 WORKDIR /srv/ghost
-COPY --from=builder /srv/ghost/ghost.tgz /srv/ghost/ghost.tgz
-
-RUN adduser ghost
-RUN usermod -aG sudo ghost
-USER ghost
-
-RUN ghost install --archive ghost.tgz --no-prompt --no-stack --no-setup --no-start
-
+RUN yarn install
 EXPOSE 2368
-CMD ["ghost", "start"]
+CMD ["node", "./index.js"]
+
