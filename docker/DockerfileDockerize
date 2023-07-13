@@ -1,21 +1,30 @@
 FROM node:18-buster-slim AS builder
-# add "bash" for "[["
-RUN apt-get update && apt-get install -y bash git python
-ENV GHOST_VERSION 5.54.0
+
+ARG GHOST_VERSION 5.54.0
 ENV NODE_ENV development
 
-COPY . /srv/ghost
+RUN apt-get update && apt-get install -y bash git python filter-repo tar
+COPY . /tmp/ghost
+WORKDIR /tmp/ghost
 
-WORKDIR /srv/ghost
 RUN yarn install --silent && yarn cache clean
 
+# openstack adaptorを移動
 RUN mkdir -p ./ghost/core/content/adapters/storage
 RUN cp -r ./node_modules/ghost-storage-adapter-openstack ./ghost/core/content/adapters/storage/openstack
 
-COPY . /srv/ghost
+# 必要なパッケージをルートに持ってくる
+RUN (cd ghost/bookshelf-filter && git filter-repo -f --subdirectory-filter packages/bookshelf-filter) && \
+  (cd ghost/kg-default-cards && git filter-repo -f --subdirectory-filter packages/kg-default-cards) && \
+  (cd ghost/kg-markdown-html-renderer && git filter-repo -f --subdirectory-filter packages/kg-markdown-html-renderer)
 
 RUN yarn archive
 COPY ./ghost/core/ghost-${GHOST_VERSION}.tgz ./ghost.tgz
+# TODO: pathは適当なので確かめる 
+RUN tar -xzf ./ghost.tgz && rm ./ghost.tgz && mv ./packages/versions/${ARG} /srv/ghost && rm -rf ./packages 
+
+#TODO: adaptor/themeがちゃんと移動されているかを確認
+
 
 FROM ghost:alpine
 # dockerize---
@@ -25,6 +34,9 @@ RUN apk add --no-cache openssl shadow\
   && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
   && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 # ------------
+
+#TODO: index.jsから起動するように変更
+# yarn installをする必要がある
 ENV NODE_ENV production
 RUN adduser -D ghost && mkdir -p /etc/sudoers.d \
   && echo "ghost ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/ghost \
