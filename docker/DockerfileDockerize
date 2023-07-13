@@ -1,53 +1,56 @@
-FROM node:18-buster-slim AS builder
-
-ARG GHOST_VERSION 5.54.0
+FROM node:18-buster-slim
+# FROM node:18-buster-slim AS builder
+ENV GHOST_VERSION 5.54.0
 ENV NODE_ENV development
 
-RUN apt-get update && apt-get install -y bash git python filter-repo tar
+RUN apt-get update && apt-get install -y git tar
 COPY . /tmp/ghost
 WORKDIR /tmp/ghost
+
+# 必要なパッケージをルートに持ってくる
+RUN (cd ghost/bookshelf-filter && git filter-branch -f --subdirectory-filter packages/bookshelf-filter) && \
+  (cd ghost/kg-default-cards && git filter-branch -f --subdirectory-filter packages/kg-default-cards) && \
+  (cd ghost/kg-markdown-html-renderer && git filter-branch -f --subdirectory-filter packages/kg-markdown-html-renderer)
 
 RUN yarn install --silent && yarn cache clean
 
 # openstack adaptorを移動
-RUN mkdir -p ./ghost/core/content/adapters/storage
-RUN cp -r ./node_modules/ghost-storage-adapter-openstack ./ghost/core/content/adapters/storage/openstack
+RUN mkdir -p ./ghost/core/content/adapters/storage && \ 
+  cp -r ./node_modules/ghost-storage-adapter-openstack ./ghost/core/content/adapters/storage/openstack
 
-# 必要なパッケージをルートに持ってくる
-RUN (cd ghost/bookshelf-filter && git filter-repo -f --subdirectory-filter packages/bookshelf-filter) && \
-  (cd ghost/kg-default-cards && git filter-repo -f --subdirectory-filter packages/kg-default-cards) && \
-  (cd ghost/kg-markdown-html-renderer && git filter-repo -f --subdirectory-filter packages/kg-markdown-html-renderer)
 
 RUN yarn archive
-COPY ./ghost/core/ghost-${GHOST_VERSION}.tgz ./ghost.tgz
-# TODO: pathは適当なので確かめる 
-RUN tar -xzf ./ghost.tgz && rm ./ghost.tgz && mv ./packages/versions/${ARG} /srv/ghost && rm -rf ./packages 
+RUN cp ./ghost/core/ghost-${GHOST_VERSION}.tgz ./ghost.tgz && \
+  tar -xzf ./ghost.tgz && \
+  rm ./ghost.tgz && \
+  mkdir -p /srv/ghost && \
+  mv ./package/* /srv/ghost
 
 #TODO: adaptor/themeがちゃんと移動されているかを確認
 
 
-FROM ghost:alpine
-# dockerize---
-ENV DOCKERIZE_VERSION v0.6.1
-RUN apk add --no-cache openssl shadow\
-  && wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-  && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-  && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
-# ------------
+# FROM ghost:alpine
+# # dockerize---
+# ENV DOCKERIZE_VERSION v0.6.1
+# RUN apk add --no-cache openssl shadow\
+#   && wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+#   && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+#   && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+# # ------------
 
-#TODO: index.jsから起動するように変更
-# yarn installをする必要がある
-ENV NODE_ENV production
-RUN adduser -D ghost && mkdir -p /etc/sudoers.d \
-  && echo "ghost ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/ghost \
-  && chmod 0440 /etc/sudoers.d/ghost
-USER ghost
+# #TODO: index.jsから起動するように変更
+# # yarn installをする必要がある
+# ENV NODE_ENV production
+# RUN adduser -D ghost && mkdir -p /etc/sudoers.d \
+#   && echo "ghost ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/ghost \
+#   && chmod 0440 /etc/sudoers.d/ghost
+# USER ghost
 
-WORKDIR /srv/ghost
-COPY --from=builder /srv/ghost/ghost.tgz /ghost.tgz
+# WORKDIR /srv/ghost
+# COPY --from=builder /srv/ghost/ghost.tgz /ghost.tgz
 
-RUN ghost install --archive /ghost.tgz --no-prompt --no-stack --no-setup --no-start
+# RUN ghost install --archive /ghost.tgz --no-prompt --no-stack --no-setup --no-start
 
-EXPOSE 2368
-CMD ["ghost", "start"]
+# EXPOSE 2368
+# CMD ["ghost", "start"]
 
