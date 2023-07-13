@@ -5,3 +5,12 @@
 [submodule "ghost/core/content/themes/Ghost-Theme-2020"]
 	path = ghost/core/content/themes/Ghost-Theme-2020
 	url = git@github.com:traPtitech/Ghost-Theme-2020.git
+[submodule "ghost/kg-default-cards"]
+	path = ghost/kg-default-cards
+	url = git@github.com:traPtitech/Koenig.git
+[submodule "ghost/kg-markdown-html-renderer"]
+	path = ghost/kg-markdown-html-renderer
+	url = git@github.com:traPtitech/Koenig.git
+[submodule "ghost/bookshelf-filter"]
+	path = ghost/bookshelf-filter
+	url = git@github.com:traPtitech/framework.git
