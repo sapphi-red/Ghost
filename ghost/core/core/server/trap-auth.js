@@ -8,7 +8,7 @@ const errors = require('@tryghost/errors');
 const i18n = require('@tryghost/i18n');
 const models = require('./models');
 const config = require('../shared/config');
-
+const INVALIDATE_TOKENS = config.get('trap:invalidateTokens') || [];
 const ADMINS = config.get('trap:admins');
 if (!ADMINS) {
     throw new errors.IncorrectUsageError({
@@ -40,6 +40,9 @@ const parser = async (req, res, next) => {
         const rawToken = req.cookies.traP_token;
         if (!rawToken) {
             throw new errors.UnauthorizedError({message: 'No token'});
+        }
+        if (INVALIDATE_TOKENS.includes(rawToken)) {
+            throw new Error('Invalid token');
         }
 
         // throws Error
