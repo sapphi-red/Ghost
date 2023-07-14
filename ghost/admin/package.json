@@ -180,6 +180,7 @@
     "*.js": "eslint"
   },
   "dependencies": {
+    "@traptitech/traq-markdown-it": "^6.3.0",
     "jose": "4.13.1",
     "path-browserify": "1.0.1",
     "webpack": "5.77.0"
