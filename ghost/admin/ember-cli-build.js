@@ -253,6 +253,7 @@ module.exports = function (defaults) {
     if (app.env === 'development') {
         app.import('vendor/codemirror/lib/codemirror.js', {type: 'test'});
     }
+    app.import('node_modules/highlight.js/styles/github.css');
 
     return app.toTree();
 };
