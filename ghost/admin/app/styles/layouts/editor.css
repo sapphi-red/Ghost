@@ -181,7 +181,7 @@
     max-height: 110px;
     overflow: hidden;
     margin-bottom: 5px;
-    font-family: Georgia, serif;
+    font-family: serif;
     font-size: 18px;
     line-height: 22px;
     font-weight: 500;
@@ -965,7 +965,7 @@ body[data-user-is-dragging] .gh-editor-feature-image-dropzone {
 .gh-editor .editor-preview,
 .gh-markdown-editor-preview {
     color: color-mod(var(--darkgrey) l(+5%));
-    font-family: Georgia, Times, Serif;
+    font-family: Serif;
     font-size: 1.9rem;
 }
 
