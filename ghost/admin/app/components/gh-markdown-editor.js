@@ -480,7 +480,14 @@ export default class GhMarkdownEditor extends Component.extend(ShortcutsMixin) {
                     alt = filename.slice(0, filename.lastIndexOf('.'));
                 }
 
-                return `![${alt}](${url})`;
+                if (/\.(gif|jpe?g|png|bmp|svgz?)$/i.test(filename)) {
+                    return `![${alt}](${url})`;
+                } else if (/\.(mp3|m4a|ogg|opus|aac|wav|flac)$/i.test(filename)) {
+                    return `<audio controls src="${url}"></audio>`;
+                } else if (/\.(mp4|webm|mkv|mov|avi)$/i.test(filename)) {
+                    return `<video controls src="${url}"></video>`;
+                }
+                return `<a href="${url}">${alt}</a>`;
 
             // full url object, use attrs we're given
             } else {

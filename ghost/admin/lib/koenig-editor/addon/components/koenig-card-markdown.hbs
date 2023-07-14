@@ -63,6 +63,7 @@
                     @extensions={{editor.imageExtensions}}
                     @onComplete={{action editor.uploadComplete}}
                     @onCancel={{action editor.uploadCancelled}}
+                    @noValidation={{true}}
                     as |upload|
                 >
                     <div class="gh-editor-image-upload {{if upload.errors "-error"}}">
