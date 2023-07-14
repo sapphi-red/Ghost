@@ -141,7 +141,8 @@ export const DEFAULT_KEY_COMMANDS = [{
 
         editor.run((postEditor) => {
             let softReturn = postEditor.builder.createAtom('soft-return');
-            postEditor.insertMarkers(editor.range.head, [softReturn]);
+            const marker = postEditor.builder.createMarker('\ufeff' /* ZWNBSP */, []);
+            postEditor.insertMarkers(editor.range.head, [softReturn, marker]);
         });
     }
 }, {
