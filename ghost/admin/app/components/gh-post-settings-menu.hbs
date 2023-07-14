@@ -25,7 +25,7 @@
                                 </a>
                                 {{/if}}
                             {{/unless}}
-
+                            {{#if (eq post.displayName "page") }}
                             <div class="gh-input-icon gh-icon-link">
                                 {{svg-jar "link"}}
                                 <GhTextInput
@@ -37,10 +37,9 @@
                                     @focus-out={{action "updateSlug" this.slugValue}}
                                     @stopEnterKeyDownPropagation={{true}} />
                             </div>
-                            {{#if this.post.isSent}}
-                                <GhUrlPreview @prefix="email" @slug={{this.uuidValue}} @tagName="p" @classNames="description" />
+                            <GhUrlPreview @prefix="email" @slug={{this.uuidValue}} @tagName="p" @classNames="description" />
                             {{else}}
-                                <GhUrlPreview @slug={{this.slugValue}} @tagName="p" @classNames="description" />
+                            <GhUrlPreview @slug={{this.slugValue}} @tagName="p" @classNames="description" @prefix="post" />
                             {{/if}}
                         </div>
 
