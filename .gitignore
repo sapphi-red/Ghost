@@ -84,7 +84,7 @@ typings/
 /ghost/core/content/tmp/*
 /ghost/core/content/data/*
 /ghost/core/content/logs/*
-/ghost/core/content/settings/*
+# /ghost/core/content/settings/*
 /ghost/core/content/apps/**/*
 /ghost/core/content/themes/**/*
 /ghost/core/content/images/**/*
