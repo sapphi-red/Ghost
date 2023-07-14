@@ -1,0 +1,42 @@
+.blog-code {
+  position: relative;
+}
+.blog-code cite {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0 4px;
+  font-size: .8em;
+  color: #333;
+  background: #ddd;
+}
+
+.gh-koenig-editor .success, .gh-koenig-editor .info, .gh-koenig-editor .warning, .gh-koenig-editor .danger {
+  padding: 15px;
+  margin-bottom: 12px;
+  border-radius: 4px;
+}
+.gh-koenig-editor .success p:last-of-type, .gh-koenig-editor .info p:last-of-type, .gh-koenig-editor .warning p:last-of-type, .gh-koenig-editor .danger p:last-of-type {
+  margin-bottom: 0;
+}
+
+.gh-koenig-editor .success {
+  color: #3c763d;
+  background-color: #dff0d8;
+  border: 1px solid #d6e9c6;
+}
+.gh-koenig-editor .info {
+  color: #31708f;
+  background-color: #d9edf7;
+  border: 1px solid #bce8f1;
+}
+.gh-koenig-editor .warning {
+  color: #8a6d3b;
+  background-color: #fcf8e3;
+  border: 1px solid #faebcc;
+}
+.gh-koenig-editor .danger {
+  color: #a94442;
+  background-color: #f2dede;
+  border: 1px solid #ebccd1;
+}
