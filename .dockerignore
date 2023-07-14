@@ -1,0 +1,10 @@
+node_modules/
+**/node_modules/
+.github/
+.vscode/
+/conf.d
+/content
+!/content/themes
+/docker
+/test
+*.tgz
