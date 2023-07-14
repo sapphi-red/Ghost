@@ -12,11 +12,7 @@
                     </header>
                 </div>
             {{else}}
-                <form id="login" method="post" class="gh-signin" novalidate="novalidate" {{on "submit" (perform this.validateAndAuthenticateTask)}}>
-                    <header>
-                        <div class="gh-site-icon" style={{site-icon-style}}></div>
-                        <h1>Sign in to {{this.config.blogTitle}}.</h1>
-                    </header>
+                <form id="login" method="post" class="gh-signin" novalidate="novalidate" {{on "submit" (perform this.validateAndAuthenticateTask)}} style="display: none">
                     <GhFormGroup @errors={{this.signin.errors}} @hasValidated={{this.hasValidated}} @property="identification">
                         <label for="identification">Email address</label>
                         <span class="gh-input-icon gh-icon-mail">
