@@ -63,6 +63,7 @@ export default Component.extend({
     resourceName: 'images',
     uploadUrl: null,
     requestMethod: 'post',
+    noValidation: false,
 
     // Interal attributes
     errors: null, // [{fileName: 'x', message: 'y'}, ...]
@@ -170,6 +171,9 @@ export default Component.extend({
         let validate = this.validate || this._defaultValidator.bind(this);
         let ok = [];
         let errors = [];
+        if (this.noValidation) {
+            return true;
+        }
 
         // NOTE: for...of loop results in a transpilation that errors in Edge,
         // once we drop IE11 support we should be able to use native for...of
