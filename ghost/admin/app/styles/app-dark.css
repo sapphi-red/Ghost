@@ -17,6 +17,8 @@
 @import "patterns/navlist.css";
 @import "patterns/boxes.css";
 
+@import "patterns/trap-customized.css";
+
 /* Components
 /* ---------------------------------------------------------- */
 @import "components/loading-indicator.css";
