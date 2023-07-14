@@ -17879,6 +17879,11 @@ getpass@^0.1.1:
   dependencies:
     assert-plus "^1.0.0"
 
+ghost-pagination@^0.1.3:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/ghost-pagination/-/ghost-pagination-0.1.3.tgz#a80d7d97a6ff619e9ee68013ba4b885634e9827a"
+  integrity sha512-eNDBB52G/27Sou2zF3ZWoVcRGVjulRWMqrCWVqV4mM70HvdtNJ8gBrC44z353Ur+PsORqIdWu0HgsR2rs0gDlw==
+
 ghost-storage-base@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/ghost-storage-base/-/ghost-storage-base-1.0.0.tgz#931289d310ad59fc80e2be01a81235cc3a76e75a"
