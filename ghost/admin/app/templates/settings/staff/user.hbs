@@ -88,17 +88,21 @@
             <form id="user-settings-form" class="user-profile" novalidate="novalidate" autocomplete="off" {{on "submit" (perform this.saveTask)}}>
 
                 <figure class="user-cover" style={{background-image-style this.user.coverImageUrl}}>
+                    {{#if false}}
                     <button type="button" class="gh-btn gh-btn-default user-cover-edit" {{on "click" this.changeCoverImage}}><span>Change cover</span></button>
+                    {{/if}}
                 </figure>
 
                 <figure class="user-image bg-whitegrey">
                     <div id="user-image" class="img" style={{background-image-style this.user.profileImageUrl}}><span class="hidden">{{this.user.name}}"s picture</span></div>
+                    {{#if false}}
                     <button type="button" class="edit-user-image" {{on "click" this.changeProfileImage}}>Edit picture</button>
+                    {{/if}}
                 </figure>
 
                 <div class="pa5">
                     <fieldset class="user-details-bottom">
-
+                        {{#if false}}
                         <GhFormGroup @errors={{this.user.errors}} @hasValidated={{this.user.hasValidated}} @property="name" class="first-form-group">
                             <label for="user-name">Full name</label>
                             <input
@@ -158,6 +162,7 @@
                             {{/if}}
                             <p>Used for notifications</p>
                         </GhFormGroup>
+                        {{/if}}
 
                         {{#if this.rolesDropdownIsVisible}}
                             <div class="form-group">
@@ -376,7 +381,7 @@
             </form> {{! user details form }}
 
             {{!-- If an administrator is viewing Owner's profile then hide inputs for change password --}}
-            {{#if this.canChangePassword}}
+            {{#if false}}
                 <form id="password-reset" class="user-profile" novalidate="novalidate" autocomplete="off" {{on "submit" this.submitPasswordForm}}>
                     <div class="pa5">
                         <fieldset class="user-details-form">
