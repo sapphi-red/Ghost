@@ -64,12 +64,14 @@ md.use(katexPlugin, {
 });
 useContainer(md);
 
+const getRandom = () => Math.random().toString(36).slice(2, 9);
+
 export default function formatMarkdown(_markdown, replaceJS = true) {
     let markdown = _markdown || '';
     let escapedhtml = '';
 
     // convert markdown to HTML
-    escapedhtml = md.render(markdown);
+    escapedhtml = md.render(markdown, {docId: getRandom()});
 
     // avoid sanitizing svg
     let buf = [];
