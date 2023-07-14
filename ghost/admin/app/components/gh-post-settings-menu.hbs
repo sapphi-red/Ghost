@@ -215,6 +215,7 @@
                         </li>
                     </ul>
                 </form>
+                {{#if (gh-user-can-admin this.session.user)}}
                 {{#unless this.post.isNew}}
                     <div class="settings-menu-delete-button">
                         <button type="button" class="gh-btn gh-btn-outline gh-btn-icon gh-btn-fullwidth" {{action "deletePostInternal"}} data-test-button="delete-post">
@@ -222,6 +223,7 @@
                         </button>
                     </div>
                 {{/unless}}
+                {{/if}}
             </div>{{! .settings-menu-content }}
         </div>{{! .post-settings-menu }}
 
