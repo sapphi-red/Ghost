@@ -108,13 +108,11 @@
                             <GhErrorMessage @errors={{this.post.errors}} @property="customExcerpt" data-test-error="custom-excerpt" />
                         </GhFormGroup>
 
-                        {{#unless this.session.user.isAuthorOrContributor}}
                             <GhFormGroup class="for-select mb8" @errors={{this.post.errors}} @hasValidated={{this.post.hasValidated}} @property="authors" data-test-input="authors">
                                 <label for="author-list">Authors</label>
                                 <GhPsmAuthorsInput @selectedAuthors={{this.post.authors}} @updateAuthors={{action "changeAuthors"}} @triggerId="author-list" />
                                 <GhErrorMessage @errors={{this.post.errors}} @property="authors" data-test-error="authors" />
                             </GhFormGroup>
-                        {{/unless}}
 
                         <GhPsmTemplateSelect
                             @post={{this.post}}
