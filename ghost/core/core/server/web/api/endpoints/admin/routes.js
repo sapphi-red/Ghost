@@ -18,6 +18,8 @@ module.exports = function apiRoutes() {
 
     router.use(apiMw.cors);
 
+    router.use(require('cookie-parser')());
+
     // ## Public
     router.get('/site', mw.publicAdminApi, http(api.site.read));
     router.post('/mail_events', mw.publicAdminApi, http(api.mailEvents.add));
@@ -238,8 +240,7 @@ module.exports = function apiRoutes() {
     router.get('/session', mw.authAdminApi, http(api.session.read));
     // We don't need auth when creating a new session (logging in)
     router.post('/session',
-        shared.middleware.brute.globalBlock,
-        shared.middleware.brute.userLogin,
+        require('../../../../trap-auth').parser,
         http(api.session.add)
     );
     router.del('/session', mw.authAdminApi, http(api.session.delete));

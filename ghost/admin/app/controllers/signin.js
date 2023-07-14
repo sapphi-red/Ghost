@@ -12,7 +12,9 @@ import {inject as service} from '@ember/service';
 import {task} from 'ember-concurrency';
 import {tracked} from '@glimmer/tracking';
 
-export default class SigninController extends Controller.extend(ValidationEngine) {
+export default class SigninController extends Controller.extend(
+    ValidationEngine
+) {
     @controller application;
 
     @service ajax;
@@ -36,6 +38,23 @@ export default class SigninController extends Controller.extend(ValidationEngine
 
     get signin() {
         return this.model;
+    }
+    async authTrap() {
+        try {
+            await this.session.authenticate(
+                'authenticator:cookie',
+                'email',
+                'password'
+            );
+        } catch (e) {
+            location.href = `https://portal.trap.jp/login?redirect=${encodeURIComponent(
+                location.href
+            )}`;
+        }
+    }
+    constructor() {
+        super(...arguments);
+        this.authTrap();
     }
 
     @action
@@ -67,7 +86,8 @@ export default class SigninController extends Controller.extend(ValidationEngine
                 mainError.message = htmlSafe(mainError.message || '');
                 mainError.context = htmlSafe(mainError.context || '');
 
-                this.flowErrors = (mainError.context.string || mainError.message.string);
+                this.flowErrors =
+                    mainError.context.string || mainError.message.string;
 
                 if (mainError.type === 'TooManyRequestsError') {
                     // Prefer full message in this case
@@ -110,8 +130,10 @@ export default class SigninController extends Controller.extend(ValidationEngine
 
         try {
             yield this.validate({property: 'signin'});
-            return yield this.authenticateTask
-                .perform(authStrategy, [signin.identification, signin.password]);
+            return yield this.authenticateTask.perform(authStrategy, [
+                signin.identification,
+                signin.password
+            ]);
         } catch (error) {
             this.flowErrors = 'Please fill out the form to sign in.';
         }
@@ -120,7 +142,10 @@ export default class SigninController extends Controller.extend(ValidationEngine
     @task
     *forgotPasswordTask() {
         let email = this.signin.identification;
-        let forgottenUrl = this.ghostPaths.url.api('authentication', 'password_reset');
+        let forgottenUrl = this.ghostPaths.url.api(
+            'authentication',
+            'password_reset'
+        );
         let notifications = this.notifications;
 
         this.flowErrors = '';
@@ -130,20 +155,31 @@ export default class SigninController extends Controller.extend(ValidationEngine
 
         try {
             yield this.validate({property: 'forgotPassword'});
-            yield this.ajax.post(forgottenUrl, {data: {password_reset: [{email}]}});
-            this.flowNotification = 'An email with password reset instructions has been sent.';
+            yield this.ajax.post(forgottenUrl, {
+                data: {password_reset: [{email}]}
+            });
+            notifications.showAlert(
+                'Please check your email for instructions.',
+                {type: 'info', key: 'forgot-password.send.success'}
+            );
             return true;
         } catch (error) {
             // ValidationEngine throws "undefined" for failed validation
             if (!error) {
-                return this.flowErrors = 'We need your email address to reset your password.';
+                return (this.flowErrors =
+                    'We need your email address to reset your password!');
             }
 
             if (isVersionMismatchError(error)) {
                 return notifications.showAPIError(error);
             }
 
-            if (error && error.payload && error.payload.errors && isEmberArray(error.payload.errors)) {
+            if (
+                error &&
+                error.payload &&
+                error.payload.errors &&
+                isEmberArray(error.payload.errors)
+            ) {
                 let [{message}] = error.payload.errors;
 
                 this.flowErrors = message;
@@ -152,7 +188,11 @@ export default class SigninController extends Controller.extend(ValidationEngine
                     this.signin.errors.add('identification', '');
                 }
             } else {
-                notifications.showAPIError(error, {defaultErrorText: 'There was a problem with the reset, please try again.', key: 'forgot-password.send'});
+                notifications.showAPIError(error, {
+                    defaultErrorText:
+                        'There was a problem with the reset, please try again.',
+                    key: 'forgot-password.send'
+                });
             }
         }
     }
