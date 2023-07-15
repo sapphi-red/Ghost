@@ -50,13 +50,51 @@ const codemirrorAssets = function () {
             }
 
             let mergedTree = mergeTrees([tree, jsTree]);
-            return new Funnel(mergedTree, {include: ['assets/**/*', 'theme/**/*']});
+            return new Funnel(mergedTree, {
+                include: ['assets/**/*', 'theme/**/*']
+            });
         }
     };
 
     // put the files in vendor ready for importing into the test-support file
     if (environment === 'development') {
         config.vendor = codemirrorFiles;
+    }
+
+    return config;
+};
+
+const simplemdeAssets = function () {
+    let simplemdeFiles = ['debug/simplemde.js'];
+
+    if (environment === 'test') {
+        return {import: simplemdeFiles};
+    }
+
+    let config = {};
+
+    config.public = {
+        include: simplemdeFiles,
+        destDir: '/',
+        processTree(tree) {
+            let jsTree = concat(tree, {
+                outputFile: 'assets/simplemde/simplemde.js',
+                inputFiles: ['debug/simplemde.js'],
+                sourceMapConfig: {enabled: false}
+            });
+
+            if (isProduction) {
+                jsTree = new Terser(jsTree);
+            }
+
+            let mergedTree = mergeTrees([tree, jsTree]);
+            return new Funnel(mergedTree, {include: ['assets/**/*']});
+        }
+    };
+
+    // put the files in vendor ready for importing into the test-support file
+    if (environment === 'development') {
+        config.vendor = simplemdeFiles;
     }
 
     return config;
@@ -81,16 +119,21 @@ module.exports = function (defaults) {
     let app = new EmberApp(defaults, {
         addons: {denylist},
         babel: {
-            plugins: [
-                require.resolve('babel-plugin-transform-react-jsx')
-            ]
+            plugins: [require.resolve('babel-plugin-transform-react-jsx')]
         },
         'ember-cli-babel': {
             optional: ['es6.spec.symbols'],
             includePolyfill: false
         },
         'ember-composable-helpers': {
-            only: ['join', 'optional', 'pick', 'toggle', 'toggle-action', 'compute']
+            only: [
+                'join',
+                'optional',
+                'pick',
+                'toggle',
+                'toggle-action',
+                'compute'
+            ]
         },
         'ember-promise-modals': {
             excludeCSS: true
@@ -196,9 +239,11 @@ module.exports = function (defaults) {
                     {removeXMLNS: true},
                     // Transforms on groups are necessary to work around Firefox
                     // not supporting transform-origin on line/path elements.
-                    {convertPathData: {
-                        applyTransforms: false
-                    }},
+                    {
+                        convertPathData: {
+                            applyTransforms: false
+                        }
+                    },
                     {moveGroupAttrsToElems: false}
                 ]
             }
@@ -213,6 +258,9 @@ module.exports = function (defaults) {
                         path: require.resolve('path-browserify'),
                         fs: false
                     }
+                },
+                node: {
+                    global: true
                 },
                 ...(isDevelopment && {
                     cache: {
@@ -246,12 +294,21 @@ module.exports = function (defaults) {
     // 'dem Scripts
     app.import('node_modules/google-caja-bower/html-css-sanitizer-bundle.js');
     app.import('node_modules/keymaster/keymaster.js');
+    app.import(
+        'node_modules/@tryghost/mobiledoc-kit/dist/amd/mobiledoc-kit.js'
+    );
+    app.import(
+        'node_modules/@tryghost/mobiledoc-kit/dist/amd/mobiledoc-kit.map'
+    );
     app.import('node_modules/reframe.js/dist/noframe.js');
 
     // pull things we rely on via lazy-loading into the test-support.js file so
     // that tests don't break when running via http://localhost:4200/tests
     if (app.env === 'development') {
         app.import('vendor/codemirror/lib/codemirror.js', {type: 'test'});
+        app.import('vendor/@tryghost/kg-simplemde/debug/simplemde.js', {
+            type: 'test'
+        });
     }
     app.import('node_modules/highlight.js/styles/github.css');
 
