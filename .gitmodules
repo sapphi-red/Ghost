@@ -11,3 +11,6 @@
 [submodule "ghost/bookshelf-filter"]
 	path = ghost/bookshelf-filter
 	url = git@github.com:traPtitech/framework.git
+[submodule "ghost/core/content/themes/ghost-theme-2020"]
+	path = ghost/core/content/themes/ghost-theme-2020
+	url = git@github.com:traPtitech/Ghost-Theme-2020.git
