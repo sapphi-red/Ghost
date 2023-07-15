@@ -19,6 +19,8 @@ RUN cp ./ghost/core/ghost-${GHOST_VERSION}.tgz ./ghost.tgz && \
   mkdir -p /srv/ghost && \
   mv ./package/* /srv/ghost
 
+COPY ./ghost/core/content/themes/ghost-theme-2020 /srv/ghost/content/themes/ghost-theme-2020
+
 # openstack adaptorを移動
 RUN mkdir -p /srv/ghost/content/adapters/storage && \ 
   cp -r ./node_modules/ghost-storage-adapter-openstack /srv/ghost/content/adapters/storage/openstack
