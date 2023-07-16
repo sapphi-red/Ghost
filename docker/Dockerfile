@@ -25,8 +25,8 @@ COPY ./ghost/core/content/themes/ghost-theme-2020 /srv/ghost/content/themes/ghos
 RUN mkdir -p /srv/ghost/content/adapters/storage && \ 
   cp -r ./node_modules/ghost-storage-adapter-s3 /srv/ghost/content/adapters/storage/s3
 
-FROM node:18-alpine
-RUN apk add --no-cache git
+FROM node:18-bookworm-slim
+RUN apt-get update && apt-get install -y git
 
 ENV NODE_ENV production
 COPY --from=builder /srv/ghost /srv/ghost

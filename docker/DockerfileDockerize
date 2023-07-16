@@ -25,14 +25,14 @@ RUN mkdir -p /srv/ghost/content/adapters/storage && \
 
 COPY ./ghost/core/content/themes/ghost-theme-2020 /srv/ghost/content/themes/ghost-theme-2020
 
-FROM node:18-alpine
-RUN apk add --no-cache git bash
+FROM node:18-bookworm-slim
+RUN apt-get update && apt-get install -y git
 # dockerize---
 ENV DOCKERIZE_VERSION v0.6.1
-RUN apk add --no-cache openssl shadow\
-  && wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-  && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-  && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+RUN apt-get update \
+  && apt-get install -y wget \
+  && wget -O - https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz | tar xzf - -C /usr/local/bin \
+  && apt-get autoremove -yqq --purge wget && rm -rf /var/lib/apt/lists/*
 # ------------
 
 ENV NODE_ENV production
