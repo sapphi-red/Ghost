@@ -1,5 +1,5 @@
 FROM node:18-bookworm-slim AS builder
-ENV GHOST_VERSION 5.54.0
+ENV GHOST_VERSION 5.54.4
 ENV NODE_ENV development
 
 RUN apt-get update && apt-get install -y git tar git-filter-repo
