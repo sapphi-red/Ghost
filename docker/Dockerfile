@@ -33,4 +33,4 @@ COPY --from=builder /srv/ghost /srv/ghost
 WORKDIR /srv/ghost
 RUN yarn install && yarn cache clean
 EXPOSE 2368
-CMD ["node", "./index.js"]
+CMD ["node", "--heapsnapshot-signal=SIGUSR2", "./index.js"]
