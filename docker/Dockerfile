@@ -1,4 +1,4 @@
-FROM node:16-bookworm-slim AS builder
+FROM node:18-bookworm-slim AS builder
 ENV GHOST_VERSION 5.54.4
 ENV NODE_ENV development
 
@@ -23,9 +23,9 @@ COPY ./ghost/core/content/themes/ghost-theme-2020 /srv/ghost/content/themes/ghos
 
 # s3 adaptorを移動
 RUN mkdir -p /srv/ghost/content/adapters/storage && \ 
-  cp -r ./node_modules/ghost-storage-adapter-s3 /srv/ghost/content/adapters/storage/s3
+  cp -r ./node_modules/ghost-storage-adapter-openstack /srv/ghost/content/adapters/storage/openstack
 
-FROM node:16-bookworm-slim
+FROM node:18-bookworm-slim
 RUN apt-get update && apt-get install -y git
 
 ENV NODE_ENV production
@@ -33,4 +33,4 @@ COPY --from=builder /srv/ghost /srv/ghost
 WORKDIR /srv/ghost
 RUN yarn install && yarn cache clean
 EXPOSE 2368
-CMD ["node", "--heapsnapshot-signal=SIGUSR2", "./index.js"]
+CMD ["node", "./index.js"]
