@@ -1,4 +1,4 @@
-FROM node:18-bookworm-slim AS builder
+FROM node:16-bookworm-slim AS builder
 ENV GHOST_VERSION 5.54.4
 ENV NODE_ENV development
 
@@ -25,7 +25,7 @@ COPY ./ghost/core/content/themes/ghost-theme-2020 /srv/ghost/content/themes/ghos
 RUN mkdir -p /srv/ghost/content/adapters/storage && \ 
   cp -r ./node_modules/ghost-storage-adapter-s3 /srv/ghost/content/adapters/storage/s3
 
-FROM node:18-bookworm-slim
+FROM node:16-bookworm-slim
 RUN apt-get update && apt-get install -y git
 
 ENV NODE_ENV production
