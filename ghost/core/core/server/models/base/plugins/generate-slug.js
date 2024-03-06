@@ -91,7 +91,7 @@ module.exports = function (Bookshelf) {
             }
             // Generate serially-numbered post slug
             if (baseName === 'post') {
-                if (base.endsWith('@true')) {
+                if (base.endsWith('-true')) {
                     slug = slug.replace(/-true$/, '');
                 } else if (!options.transacting) {
                     const sql = `
